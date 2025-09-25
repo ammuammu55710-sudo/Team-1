@@ -17,22 +17,54 @@
       border-radius: 12px;
       margin-bottom: 30px;
     }
-    .branch {
-      margin-bottom: 50px;
+    .card-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+      padding: 0px 20px;
+      box-sizing: border-box;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
     }
-    .branch h2 {
+    .card {
       background: #ffe0b3;
       color: #d35400;
-      padding: 10px;
+      text-align: center;
+      padding: 50px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    }
+    .branch-content {
+      display: none;
+      margin-top: 30px;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    .branch-content.active {
+      display: block;
+    }
+    h2 {
+      background: #ffcc80;
+      color: #e65100;
+      padding: 12px;
       border-radius: 8px;
       text-align: center;
+      margin-bottom: 20px;
     }
     h3 {
-      background: #ffcc80;
-      padding: 8px;
+      background: #ffe0b3;
+      padding: 10px;
       border-radius: 6px;
       margin-top: 15px;
-      color: #e65100;
+      color: #d35400;
     }
     table {
       width: 100%;
@@ -58,17 +90,28 @@
     tr:hover {
       background: #ffe0b3;
     }
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
   </style>
 </head>
 <body>
 
-  <h1>B.Tech Timetable (R22 - All Branches & Years)</h1>
+<h1>B.Tech Timetable (R22 - All Branches & Years)</h1>
 
-  <!-- CSE -->
-  <div class="branch">
-    <h2>Computer Science & Engineering (CSE)</h2>
+<div class="card-container">
+  <div class="card" onclick="showBranch('cse')">Computer Science & Engineering (CSE)</div>
+  <div class="card" onclick="showBranch('ece')">Electronics & Communication Engineering (ECE)</div>
+  <div class="card" onclick="showBranch('eee')">Electrical & Electronics Engineering (EEE)</div>
+  <div class="card" onclick="showBranch('me')">Mechanical Engineering (ME)</div>
+  <div class="card" onclick="showBranch('ce')">Civil Engineering (CE)</div>
+  <div class="card" onclick="showBranch('it')">Information Technology (IT)</div>
+</div>
 
-    <h3>1st Year</h3>
+<div id="cse" class="branch-content">
+  <h2>Computer Science & Engineering (CSE)</h2>
+  <h3>1st Year</h3>
     <table>
       <tr>
         <th>Day</th><th>Period 1</th><th>Period 2</th><th>Period 3</th><th>Period 4</th><th>Period 5</th><th>Period 6</th>
@@ -121,8 +164,8 @@
     </table>
   </div>
 <!-- ECE -->
-  <div class="branch">
-    <h2>Electronics & Communication Engineering (ECE)</h2>
+  <div id="ece" class="branch-content">
+  <h2>Electronics & Communication Engineering (ECE)</h2>
 
     <h3>1st Year</h3>
     <table>
@@ -177,9 +220,8 @@
     </table>
   </div>
 <!-- EEE -->
-  <div class="branch">
+    <div id="eee" class="branch-content">
     <h2>Electrical & Electronics Engineering (EEE)</h2>
-
     <h3>1st Year</h3>
     <table>
       <tr>
@@ -233,9 +275,8 @@
     </table>
   </div>
 <!-- ME -->
-  <div class="branch">
+    <div id="me" class="branch-content">
     <h2>Mechanical Engineering (ME)</h2>
-
     <h3>1st Year</h3>
     <table>
       <tr>
@@ -289,9 +330,8 @@
     </table>
   </div>
 <!-- CIVIL -->
-  <div class="branch">
+    <div id="ce" class="branch-content">
     <h2>Civil Engineering (CE)</h2>
-
     <h3>1st Year</h3>
     <table>
       <tr>
@@ -345,7 +385,7 @@
     </table>
   </div>
 <!-- IT -->
-  <div class="branch">
+    <div id="it" class="branch-content">
     <h2>Information Technology (IT)</h2>
     <h3>1st Year</h3>
     <table>
@@ -381,6 +421,31 @@
       <tr><td>Monday</td><td>Networks</td><td>OS</td><td>AI</td><td>Elective</td><td>Networks Lab</td><td>OS Lab</td></tr>
       <tr><td>Tuesday</td><td>OS</td><td>AI</td><td>Networks</td><td>Elective</td><td>Lab</td><td>Lab</td></tr>
       <tr><td>Wednesday</td><td>AI</td><td>Networks</td><td>OS</td><td>Elective</td><td>Lab</td><td>Lab</td></tr>
-      <tr><td>Thursday</td><td>Elective</td>
+      <tr><td>Thursday</td><td>Elective</td><td>OS</td><td>AI</td><td>Networks</td><td>Lab</td><td>Lab</td></tr>
+      <tr><td>Friday</td><td>Networks</td><td>OS</td><td>AI</td><td>Elective</td><td>Mini Project</td><td>Mini Project</td></tr>
+      <tr><td>Saturday</td><td>Seminar</td><td>Library</td><td>Sports</td><td>Workshop</td><td>—</td><td>—</td></tr>
+    </table>
+    <h3>4th Year</h3>
+    <table>
+        <tr>
+            <th>Day</th><th>period1</th><th>period2</th><th>period3</th><th>period4</th><th>period5</th><th>period6</th>
+        </tr>
+        <tr><td>Monday</td><td>Big Data</td><td>ML</td><td>Cloud</td><td>Elective</td><td>Project</td><td>Project</td></tr>
+        <tr><td>Tuesday</td><td>ML</td><td>Cloud</td><td>Big Data</td><td>Elective</td><td>Project</td><td>Project</td></tr>
+        <tr><td>Wednesday</td><td>Cloud</td><td>Elective</td><td>Big Data</td><td>ML</td><td>Project</td><td>Project</td></tr>
+        <tr><td>Thursday</td><td>Elective</td><td>Big Data</td><td>ML</td><td>Cloud</td><td>Project</td><td>Project</td></tr>
+        <tr><td>Friday</td><td>Big Data</td><td>ML</td><td>Cloud</td><td>Elective</td><td>Seminar</td><td>Seminar</td></tr>
+        <tr><td>Saturday</td><td>—</td><td>—</td><td>—</td><td>—</td><td>Sports</td><td>Library</td></tr>
+    </table>
+    </div>
+    <script>
+  function showBranch(branchId) {
+    const contents = document.querySelectorAll('.branch-content');
+    contents.forEach(content => content.classList.remove('active'));
+    document.getElementById(branchId).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+
 </body>
 </html>

@@ -1,41 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Student Management System</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Management System Login</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #fff3e0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+
+  .login-container {
+    background: #ff9933;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    text-align: center;
+    animation: slideIn 1s ease;
+  }
+
+  @keyframes slideIn {
+    from { transform: translateY(-100px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  h1 {
+    color: white;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+  }
+
+  input, select {
+    width: 80%;
+    padding: 12px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 8px;
+    outline: none;
+  }
+
+  button {
+    background: #ffa64d;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 15px;
+    transition: 0.3s;
+  }
+
+  button:hover {
+    background: #ffcc80;
+    transform: scale(1.05);
+  }
+
+  .error {
+    color: #ffeb3b;
+    margin-top: 10px;
+    font-weight: bold;
+    animation: blink 1s infinite;
+  }
+
+  @keyframes blink {
+    0%, 50%, 100% { opacity: 1; }
+    25%, 75% { opacity: 0; }
+  }
+</style>
 </head>
 <body>
-  <div class="container">
-    <!-- Sidebar -->
-    <nav class="sidebar slide-in">
-      <h2 class="fade-in">Portal Menu</h2>
-      <ul>
-        <li><a href="exam.html" class="fade-in-delay1">Exam</a></li>
-        <li><a href="Timetable.html" class="fade-in-delay2">Timetable</a></li>
-        <li><a href="books.html" class="fade-in-delay3">Subjects and Books</a></li>
-        <li><a href="inst.html" class="fade-in-delay4">Institute Details</a></li>
-        <li><a href="student.html" class="fade-in-delay5">Login</a></li>
-      </ul>
-    </nav>
 
-    <!-- Main Content -->
-    <div class="main-content fade-in">
-      <header>
-        <h1 class="slide-in-header">STUDENT MANAGEMENT SYSTEM</h1>
-      </header>
-      <section>
-        <p class="fade-in-text">
-          Welcome!<br>
-          This portal is designed to streamline the management of student information, courses, and academic performance.
-          Whether you are an administrator, teacher, or student, this system provides a user-friendly interface to access and manage relevant data efficiently.<br><br>
-          LEARN AND EXPLORE WITH US!
-        </p>
-        <br>
-        <img class="fade-in-image" height="60%" width="60%" src="image.png" alt="">
-      </section>
-    </div>
-  </div>
+<div class="login-container">
+  <h1>Student Management System</h1>
+  <select id="role">
+    <option value="">Select Role</option>
+    <option value="student">Student</option>
+    <option value="faculty">Faculty</option>
+  </select>
+  <input type="text" id="username" placeholder="Enter Username">
+  <input type="password" id="password" placeholder="Enter Password">
+  <button onclick="login()">Login</button>
+  <div class="error" id="errorMsg"></div>
+</div>
+
+<script>
+function login() {
+  const role = document.getElementById('role').value;
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value.trim();
+  const errorMsg = document.getElementById('errorMsg');
+
+  if(!role) {
+    errorMsg.textContent = "Please select a role!";
+    return;
+  }
+
+  if(username === "" || password === "") {
+    errorMsg.textContent = "Please enter username and password!";
+    return;
+  }
+
+  if(role === "student") {
+    if(username === password) {
+      window.location.href = "student.html"; // Student page
+    } else {
+      errorMsg.textContent = "Invalid student credentials!";
+    }
+  } else if(role === "faculty") {
+    if(password === "123456") {
+      window.location.href = "faculty.html"; // Faculty page
+    } else {
+      errorMsg.textContent = "Invalid faculty credentials!";
+    }
+  }
+}
+</script>
+
 </body>
 </html>

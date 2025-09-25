@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Faculty Portal - Student Management System</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #fff3e0;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  h1 {
+    color: #ff6600;
+    text-shadow: 1px 1px 2px #ffcc80;
+    margin-bottom: 20px;
+  }
+
+  input, button {
+    padding: 10px;
+    margin: 5px;
+    border-radius: 8px;
+    border: none;
+    font-size: 16px;
+  }
+
+  input {
+    width: 200px;
+    text-align: center;
+  }
+
+  button {
+    background: #ff9933;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  button:hover {
+    background: #ffcc80;
+  }
+
+  table {
+    margin-top: 20px;
+    border-collapse: collapse;
+    width: 80%;
+  }
+
+  table, th, td {
+    border: 1px solid #ff9933;
+  }
+
+  th, td {
+    padding: 10px;
+    text-align: center;
+  }
+
+  th {
+    background-color: #ff6600;
+    color: white;
+  }
+
+  .edit-input {
+    width: 80px;
+    padding: 5px;
+  }
+
+  .fade {
+    animation: fadeIn 0.5s ease;
+  }
+
+  @keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+  }
+
+  .form-container {
+    margin-top: 20px;
+    background: #ffd699;
+    padding: 20px;
+    border-radius: 15px;
+    width: 350px;
+    text-align: center;
+    animation: fadeIn 0.5s ease;
+  }
+
+</style>
+</head>
+<body>
+
+<h1>Student Management System - Faculty Portal</h1>
+
+<div class="form-container">
+  <h3>Add New Student</h3>
+  <input type="text" id="newName" placeholder="Name">
+  <input type="text" id="newRoll" placeholder="Roll No">
+  <input type="text" id="newAttendance" placeholder="Attendance">
+  <input type="text" id="newGrade" placeholder="Grade">
+  <br>
+  <button onclick="addStudent()">Add Student</button>
+</div>
+
+<table id="studentTable" class="fade">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Roll No</th>
+      <th>Attendance</th>
+      <th>Grade</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Student rows will be here -->
+  </tbody>
+</table>
+
+<script>
+let students = [
+  { name: "Abhinaya", attendance: "90%", rollNo: "23R91A04K1", grade: "A" },
+  { name: "Prasanna", attendance: "85%", rollNo: "23R91A04D6", grade: "B" },
+  { name: "Prudhvi", attendance: "95%", rollNo: "23R91A04J7", grade: "A+" },
+  { name: "Sandeep kumar", attendance: "80%", rollNo: "24R95A0415", grade: "B+" },
+  { name: "Swetha", attendance: "90%", rollNo: "23R91A04E6", grade: "A" },
+  { name: "Pavan", attendance: "85%", rollNo: "23R91A04J0", grade: "B" },
+  { name: "Varun", attendance: "95%", rollNo: "23R91A04E5", grade: "A+" },
+  { name: "sushanth", attendance: "80%", rollNo: "23R91A04F4", grade: "B+" },
+  { name: "Vamshi", attendance: "90%", rollNo: "23R91A04H7", grade: "A" },
+  { name: "Nagaraju", attendance: "85%", rollNo: "23R91A04J8", grade: "B" },
+  { name: "Charan", attendance: "95%", rollNo: "23R91A04J9", grade: "A+" },
+  { name: "Vyshnavi", attendance: "80%", rollNo: "24R95A0410", grade: "B+" }
+];
+
+function renderTable() {
+  const tbody = document.querySelector("#studentTable tbody");
+  tbody.innerHTML = "";
+  students.forEach((student, index) => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td><input class="edit-input" value="${student.name}" onchange="editStudent(${index}, 'name', this.value)"></td>
+      <td><input class="edit-input" value="${student.rollNo}" onchange="editStudent(${index}, 'rollNo', this.value)"></td>
+      <td><input class="edit-input" value="${student.attendance}" onchange="editStudent(${index}, 'attendance', this.value)"></td>
+      <td><input class="edit-input" value="${student.grade}" onchange="editStudent(${index}, 'grade', this.value)"></td>
+      <td><button onclick="deleteStudent(${index})">Delete</button></td>
+    `;
+    tbody.appendChild(row);
+  });
+}
+
+function editStudent(index, field, value) {
+  students[index][field] = value;
+}
+
+function deleteStudent(index) {
+  students.splice(index, 1);
+  renderTable();
+}
+
+function addStudent() {
+  const name = document.getElementById('newName').value.trim();
+  const rollNo = document.getElementById('newRoll').value.trim();
+  const attendance = document.getElementById('newAttendance').value.trim();
+  const grade = document.getElementById('newGrade').value.trim();
+
+  if(name && rollNo && attendance && grade) {
+    students.push({ name, rollNo, attendance, grade });
+    renderTable();
+    document.getElementById('newName').value = '';
+    document.getElementById('newRoll').value = '';
+    document.getElementById('newAttendance').value = '';
+    document.getElementById('newGrade').value = '';
+  } else {
+    alert("Please fill all fields!");
+  }
+}
+
+// Initial render
+renderTable();
+</script>
+
+</body>
+</html>
