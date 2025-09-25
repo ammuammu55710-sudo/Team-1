@@ -67,6 +67,12 @@
     font-weight: bold;
     animation: blink 1s infinite;
   }
+  .p{
+    color: white;
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+  }
 
   @keyframes blink {
     0%, 50%, 100% { opacity: 1; }
@@ -78,6 +84,7 @@
 
 <div class="login-container">
   <h1>Student Management System</h1>
+  <p>For Students: Username = Password (e.g., if username is "john", password is "john") <br>For Faculty: Password is "123456"</p>
   <select id="role">
     <option value="">Select Role</option>
     <option value="student">Student</option>
@@ -88,7 +95,6 @@
   <button onclick="login()">Login</button>
   <div class="error" id="errorMsg"></div>
 </div>
-
 <script>
 function login() {
   const role = document.getElementById('role').value;
