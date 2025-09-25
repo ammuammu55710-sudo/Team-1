@@ -1,35 +1,32 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
-}
-
+/* Basic Styles */
 body {
-  background-color: #fffbe6;
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #fff3e0; /* very light orange */
+  color: #e65100; /* dark orange */
 }
 
 .container {
   display: flex;
-  height: 100vh;
 }
 
 /* Sidebar */
 .sidebar {
-  width: 220px;
-  background-color: #ffd699;
+  width: 250px;
+  background: #ffcc80; /* light orange */
   padding: 20px;
-  border-right: 2px solid orange;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+  position: relative;
 }
 
 .sidebar h2 {
-  color: darkorange;
   margin-bottom: 20px;
-  text-align: center;
+  color: #bf360c; /* deep orange */
 }
 
 .sidebar ul {
   list-style: none;
+  padding: 0;
 }
 
 .sidebar ul li {
@@ -38,33 +35,70 @@ body {
 
 .sidebar ul li a {
   text-decoration: none;
-  color: #333;
+  color: #e65100; /* orange shade */
   font-weight: bold;
-  padding: 8px 12px;
-  display: block;
-  border-radius: 5px;
+  font-family: 'Times New Roman', Times, serif;
+  transition: all 0.5s ease;
 }
 
 .sidebar ul li a:hover {
-  background-color: orange;
-  color: white;
+  color: #ffffff;
+  background-color: #ff8f00; /* bright orange on hover */
+  padding: 5px 10px;
+  border-radius: 5px;
 }
 
 /* Main Content */
 .main-content {
   flex: 1;
-  padding: 30px;
+  padding: 40px;
 }
 
 .main-content header h1 {
-  font-size: 32px;
-  color: darkorange;
-  font-weight: bold;
+  font-size: 2.5rem;
+  font-family: 'Times New Roman', Times, serif;
   margin-bottom: 20px;
+  color: #d84315; /* deep orange */
 }
 
-.main-content section p {
-  font-size: 18px;
-  line-height: 1.6;
-  color: brown;
+/* Animations */
+@keyframes fadeIn {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
 }
+
+@keyframes slideIn {
+  0% {transform: translateX(-100%);}
+  100% {transform: translateX(0);}
+}
+
+@keyframes slideDown {
+  0% {transform: translateY(-50px); opacity: 0;}
+  100% {transform: translateY(0); opacity: 1;}
+}
+
+.fade-in {
+  animation: fadeIn 3s ease forwards;
+}
+
+.fade-in-text {
+  animation: fadeIn 4s ease forwards;
+}
+
+.fade-in-image {
+  animation: fadeIn 5s ease forwards;
+}
+
+.slide-in {
+  animation: slideIn 2s ease forwards;
+}
+
+.slide-in-header {
+  animation: slideDown 2s ease forwards;
+}
+
+.fade-in-delay1 { animation: fadeIn 2.4s ease forwards; }
+.fade-in-delay2 { animation: fadeIn 2.8s ease forwards; }
+.fade-in-delay3 { animation: fadeIn 3.2s ease forwards; }
+.fade-in-delay4 { animation: fadeIn 3.6s ease forwards; }
+.fade-in-delay5 { animation: fadeIn 4s ease forwards; }
