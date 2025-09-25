@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>College Student Details</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 40px;
+      background-color: #fff8f0;
+    }
+    h2 {
+      text-align: center;
+      color: #d35400;
+    }
+    form {
+      background: #fff3e0;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 600px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(255, 140, 0, 0.2);
+    }
+    input, select {
+      margin: 10px 0;
+      padding: 10px;
+      width: 100%;
+      box-sizing: border-box;
+      border: 1px solid #ffa726;
+      border-radius: 6px;
+      background-color: #fffaf2;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #ff9800;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #fb8c00;
+    }
+    table {
+      width: 100%;
+      margin-top: 30px;
+      border-collapse: collapse;
+      background: #fff;
+    }
+    th, td {
+      padding: 12px;
+      border: 1px solid #ffcc80;
+      text-align: left;
+    }
+    th {
+      background-color: #f57c00;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>College Student Registration</h2>
+
+  <form id="studentForm">
+    <input type="text" id="fullName" placeholder="Full Name" required />
+    <input type="email" id="email" placeholder="Email Address" required />
+    <input type="tel" id="phone" placeholder="Phone Number" required />
+    <input type="text" id="college" placeholder="College Name" required />
+    <input type="text" id="course" placeholder="Course / Program" required />
+    <input type="text" id="rollNo" placeholder="Roll Number" required />
+    <input type="number" id="year" placeholder="Year of Study (e.g. 1, 2, 3, 4)" required />
+    <input type="date" id="dob" placeholder="Date of Birth" required />
+    <select id="gender" required>
+      <option value="">Select Gender</option>
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+      <option value="Other">Other</option>
+    </select>
+    <button type="submit">Submit</button>
+  </form>
+
+  <table id="studentTable">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>College</th>
+        <th>Course</th>
+        <th>Roll No</th>
+        <th>Year</th>
+        <th>DOB</th>
+        <th>Gender</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Student rows will appear here -->
+    </tbody>
+  </table>
+
+  <script>
+    const form = document.getElementById('studentForm');
+    const tableBody = document.querySelector('#studentTable tbody');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const fullName = document.getElementById('fullName').value;
+      const email = document.getElementById('email').value;
+      const phone = document.getElementById('phone').value;
+      const college = document.getElementById('college').value;
+      const course = document.getElementById('course').value;
+      const rollNo = document.getElementById('rollNo').value;
+      const year = document.getElementById('year').value;
+      const dob = document.getElementById('dob').value;
+      const gender = document.getElementById('gender').value;
+
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${fullName}</td>
+        <td>${email}</td>
+        <td>${phone}</td>
+        <td>${college}</td>
+        <td>${course}</td>
+        <td>${rollNo}</td>
+        <td>${year}</td>
+        <td>${dob}</td>
+        <td>${gender}</td>
+      `;
+      tableBody.appendChild(row);
+
+      form.reset();
+    });
+  </script>
+
+</body>
+</html>
