@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login - Student Management System</title>
+  <title>Register - Student Management System</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -13,11 +13,11 @@
     }
     .container {
       background: #ff9933; padding: 40px; border-radius: 15px;
-      text-align: center; width: 350px;
+      text-align: center; width: 400px;
       box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-      animation: slideIn 1s ease-in-out;
+      animation: fadeIn 1s ease-in-out;
     }
-    @keyframes slideIn { from {opacity:0; transform:translateY(-40px);} to {opacity:1; transform:translateY(0);} }
+    @keyframes fadeIn { from {opacity:0; transform:translateY(-30px);} to {opacity:1; transform:translateY(0);} }
     h1 { color: white; margin-bottom: 20px; }
     input, select {
       width: 90%; padding: 12px; margin: 8px 0;
@@ -35,51 +35,93 @@
 </head>
 <body>
 <div class="container">
-  <h1>Login</h1>
-  <select id="role">
+  <h1>Register</h1>
+  
+  <select id="role" onchange="toggleForm()">
     <option value="">Select Role</option>
     <option value="student">Student</option>
     <option value="faculty">Faculty</option>
   </select>
-  <input type="text" id="username" placeholder="Enter Roll No / Faculty ID">
-  <input type="password" id="password" placeholder="Enter Password">
-  <button onclick="login()">Login</button>
+
+  <!-- Student Fields -->
+  <div id="studentFields" style="display:none;">
+    <input type="text" id="sname" placeholder="Enter Name">
+    <input type="text" id="srollno" placeholder="Enter Roll No">
+    <input type="text" id="sbranch" placeholder="Enter Branch">
+    <input type="password" id="spassword" placeholder="Enter Password">
+  </div>
+
+  <!-- Faculty Fields -->
+  <div id="facultyFields" style="display:none;">
+    <input type="text" id="fname" placeholder="Enter Name">
+    <input type="text" id="fid" placeholder="Enter Faculty ID">
+    <input type="text" id="fdept" placeholder="Enter Department">
+    <input type="password" id="fpassword" placeholder="Enter Password">
+  </div>
+
+  <button onclick="register()">Register</button>
   <div id="msg" class="msg"></div>
-  <a href="registration.html">New user? Register here</a>
+  <a href="index1.html">Already registered? Login here</a>
 </div>
 
 <script>
-function login() {
+function toggleForm() {
   const role = document.getElementById("role").value;
-  const username = document.getElementById("username").value.trim();
-  const password = document.getElementById("password").value.trim();
+  document.getElementById("studentFields").style.display = role === "student" ? "block" : "none";
+  document.getElementById("facultyFields").style.display = role === "faculty" ? "block" : "none";
+}
+
+function register() {
+  const role = document.getElementById("role").value;
   const msg = document.getElementById("msg");
 
   if(role === "student") {
-    let students = JSON.parse(localStorage.getItem("students")) || [];
-    let user = students.find(s => s.rollno === username && s.password === password);
+    const name = document.getElementById("sname").value.trim();
+    const rollno = document.getElementById("srollno").value.trim();
+    const branch = document.getElementById("sbranch").value.trim();
+    const password = document.getElementById("spassword").value.trim();
 
-    if(user) {
-      msg.textContent = "✅ Login Successful!";
-      msg.style.color = "lightgreen";
-      setTimeout(() => window.location.href = "student.html", 1200);
-    } else {
-      msg.textContent = "❌ Invalid Student Credentials!";
-      msg.style.color = "red";
+    if(!name || !rollno || !branch || !password) {
+      msg.textContent = "⚠️ Please fill all student fields!";
+      msg.style.color = "yellow"; return;
     }
+
+    let students = JSON.parse(localStorage.getItem("students")) || [];
+    if(students.find(s => s.rollno === rollno)) {
+      msg.textContent = "⚠️ Student already registered!";
+      msg.style.color = "red"; return;
+    }
+
+    students.push({ name, rollno, branch, password });
+    localStorage.setItem("students", JSON.stringify(students));
+
+    msg.textContent = "✅ Student Registered!";
+    msg.style.color = "lightgreen";
+    setTimeout(() => window.location.href = "student.html", 1500);
 
   } else if(role === "faculty") {
-    let faculty = JSON.parse(localStorage.getItem("faculty")) || [];
-    let user = faculty.find(f => f.id === username && f.password === password);
+    const name = document.getElementById("fname").value.trim();
+    const id = document.getElementById("fid").value.trim();
+    const dept = document.getElementById("fdept").value.trim();
+    const password = document.getElementById("fpassword").value.trim();
 
-    if(user) {
-      msg.textContent = "✅ Login Successful!";
-      msg.style.color = "lightgreen";
-      setTimeout(() => window.location.href = "faculty.html", 1200);
-    } else {
-      msg.textContent = "❌ Invalid Faculty Credentials!";
-      msg.style.color = "red";
+    if(!name || !id || !dept || !password) {
+      msg.textContent = "⚠️ Please fill all faculty fields!";
+      msg.style.color = "yellow"; return;
     }
+
+    let faculty = JSON.parse(localStorage.getItem("faculty")) || [];
+    if(faculty.find(f => f.id === id)) {
+      msg.textContent = "⚠️ Faculty already registered!";
+      msg.style.color = "red"; return;
+    }
+
+    faculty.push({ name, id, dept, password });
+    localStorage.setItem("faculty", JSON.stringify(faculty));
+
+    msg.textContent = "✅ Faculty Registered!";
+    msg.style.color = "lightgreen";
+    setTimeout(() => window.location.href = "faculty.html", 1500);
 
   } else {
     msg.textContent = "⚠️ Please select a role!";
@@ -87,6 +129,5 @@ function login() {
   }
 }
 </script>
-
 </body>
 </html>

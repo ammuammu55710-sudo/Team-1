@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Student Management System</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff3e0;
+      display: flex; justify-content: center; align-items: center;
+      height: 100vh; margin: 0;
+    }
+    .container {
+      background: #ff9933; padding: 40px; border-radius: 15px;
+      text-align: center; width: 350px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      animation: slideIn 1s ease-in-out;
+    }
+    @keyframes slideIn { from {opacity:0; transform:translateY(-40px);} to {opacity:1; transform:translateY(0);} }
+    h1 { color: white; margin-bottom: 20px; }
+    input, select {
+      width: 90%; padding: 12px; margin: 8px 0;
+      border: none; border-radius: 8px; outline: none;
+    }
+    button {
+      background: #ffa64d; color: white; border: none;
+      padding: 12px 25px; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%;
+      transition: 0.3s;
+    }
+    button:hover { background: #ffcc80; transform: scale(1.05); }
+    .msg { margin-top: 10px; font-weight: bold; }
+    a { color: white; text-decoration: underline; display: block; margin-top: 15px; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Login</h1>
+  <select id="role">
+    <option value="">Select Role</option>
+    <option value="student">Student</option>
+    <option value="faculty">Faculty</option>
+  </select>
+  <input type="text" id="username" placeholder="Enter Roll No / Faculty ID">
+  <input type="password" id="password" placeholder="Enter Password">
+  <button onclick="login()">Login</button>
+  <div id="msg" class="msg"></div>
+  <a href="index.html">New user? Register here</a>
+</div>
+
+<script>
+function login() {
+  const role = document.getElementById("role").value;
+  const username = document.getElementById("username").value.trim();
+  const password = document.getElementById("password").value.trim();
+  const msg = document.getElementById("msg");
+
+  if(role === "student") {
+    let students = JSON.parse(localStorage.getItem("students")) || [];
+    let user = students.find(s => s.rollno === username && s.password === password);
+
+    if(user) {
+      msg.textContent = "✅ Login Successful!";
+      msg.style.color = "lightgreen";
+      setTimeout(() => window.location.href = "student.html", 1200);
+    } else {
+      msg.textContent = "❌ Invalid Student Credentials!";
+      msg.style.color = "red";
+    }
+
+  } else if(role === "faculty") {
+    let faculty = JSON.parse(localStorage.getItem("faculty")) || [];
+    let user = faculty.find(f => f.id === username && f.password === password);
+
+    if(user) {
+      msg.textContent = "✅ Login Successful!";
+      msg.style.color = "lightgreen";
+      setTimeout(() => window.location.href = "faculty.html", 1200);
+    } else {
+      msg.textContent = "❌ Invalid Faculty Credentials!";
+      msg.style.color = "red";
+    }
+
+  } else {
+    msg.textContent = "⚠️ Please select a role!";
+    msg.style.color = "yellow";
+  }
+}
+</script>
+
+</body>
+</html>
