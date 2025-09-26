@@ -3,37 +3,55 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Student Details</title>
+<title>Student - My Details</title>
 <style>
   body {
     font-family: Arial, sans-serif;
     background: #fff3e0;
+    margin: 0;
+    padding: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 50px;
   }
 
-  h1 {
-    color: #ff6600;
-    text-shadow: 1px 1px 2px #ffcc80;
+  header {
+    width: 100%;
+    background: #ff9933;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    font-size: 24px;
   }
 
-  input, button {
-    padding: 10px;
-    margin: 10px 0;
-    border-radius: 8px;
-    border: none;
-    outline: none;
-    font-size: 16px;
+  .container {
+    margin: 20px auto;
+    background: #ffb84d;
+    padding: 20px;
+    border-radius: 10px;
+    width: 450px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    animation: fadeIn 1s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
   input {
-    width: 250px;
-    text-align: center;
+    width: 90%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
   }
 
   button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
     background: #ff9933;
     color: white;
     font-weight: bold;
@@ -41,73 +59,107 @@
     transition: 0.3s;
   }
 
-  button:hover {
-    background: #ffcc80;
+  button:hover { background: #ffcc80; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
   }
 
-  .details {
-    margin-top: 20px;
-    padding: 20px;
-    background: #ffd699;
-    border-radius: 15px;
-    width: 300px;
+  th {
     text-align: left;
-    animation: fadeIn 0.8s ease;
+    padding: 8px;
+    color: #fff;
+    background: #ff9933;
   }
 
-  @keyframes fadeIn {
-    from {opacity: 0;}
-    to {opacity: 1;}
+  td {
+    padding: 8px;
+    color: #fff;
+    border-bottom: 1px solid #ffcc80;
+  }
+
+  .low-attendance {
+    color: #ff4d4d;
+    font-weight: bold;
   }
 
   .error {
     color: red;
     font-weight: bold;
+    margin-top: 10px;
   }
 </style>
 </head>
 <body>
 
-<h1>Student Management System</h1>
-
-<input type="text" id="studentName" placeholder="Enter Student Name">
-<button onclick="checkStudent()">Check Details</button>
-
-<div id="result"></div>
+<header>Student Details</header>
+<div class="container">
+  <input type="text" id="nameInput" placeholder="Enter your name">
+  <button onclick="viewDetails()">View My Details</button>
+  <div class="error" id="errorMsg"></div>
+  <table>
+    <tbody id="studentDetails"></tbody>
+  </table>
+  <button onclick="logout()">Logout</button>
+</div>
 
 <script>
-const students = [
-  { name: "Abhinaya", attendance: "90%", rollNo: "23R91A04K1", grade: "A" },
-  { name: "Prasanna", attendance: "85%", rollNo: "23R91A04D6", grade: "B" },
-  { name: "Prudhvi", attendance: "95%", rollNo: "23R91A04J7", grade: "A+" },
-  { name: "Sandeep kumar", attendance: "80%", rollNo: "24R95A0415", grade: "B+" },
-  { name: "Swetha", attendance: "90%", rollNo: "23R91A04E6", grade: "A" },
-  { name: "Pavan", attendance: "85%", rollNo: "23R91A04J0", grade: "B" },
-  { name: "Varun", attendance: "95%", rollNo: "23R91A04E5", grade: "A+" },
-  { name: "sushanth", attendance: "80%", rollNo: "23R91A04F4", grade: "B+" },
-  { name: "Vamshi", attendance: "90%", rollNo: "23R91A04H7", grade: "A" },
-  { name: "Nagaraju", attendance: "85%", rollNo: "23R91A04J8", grade: "B" },
-  { name: "Charan", attendance: "95%", rollNo: "23R91A04J9", grade: "A+" },
-  { name: "Vyshnavi", attendance: "80%", rollNo: "24R95A0410", grade: "B+" }
-];
+// Function to show student details
+function viewDetails() {
+  const nameInput = document.getElementById("nameInput").value.trim();
+  const errorMsg = document.getElementById("errorMsg");
+  const tbody = document.getElementById("studentDetails");
 
-function checkStudent() {
-  const name = document.getElementById('studentName').value.trim();
-  const resultDiv = document.getElementById('result');
-  const student = students.find(s => s.name.toLowerCase() === name.toLowerCase());
+  tbody.innerHTML = ""; // Clear previous details
+  errorMsg.textContent = "";
 
-  if(student) {
-    resultDiv.innerHTML = `
-      <div class="details">
-        <p><strong>Name:</strong> ${student.name}</p>
-        <p><strong>Roll No:</strong> ${student.rollNo}</p>
-        <p><strong>Attendance:</strong> ${student.attendance}</p>
-        <p><strong>Grade:</strong> ${student.grade}</p>
-      </div>
-    `;
-  } else {
-    resultDiv.innerHTML = `<p class="error">Student not found!</p>`;
+  if (!nameInput) {
+    errorMsg.textContent = "Please enter your name!";
+    return;
   }
+
+  const students = JSON.parse(localStorage.getItem("students")) || [];
+  const student = students.find(s => s.name.toLowerCase() === nameInput.toLowerCase());
+
+  if (!student) {
+    errorMsg.textContent = "Student not found!";
+    return;
+  }
+
+  const fields = [
+    { label: "Name", value: student.name },
+    { label: "Roll No", value: student.rollno },
+    { label: "Father Name", value: student.father },
+    { label: "Mother Name", value: student.mother },
+    { label: "Date of Birth", value: student.dob },
+    { label: "Gender", value: student.gender },
+    { label: "Contact", value: student.contact },
+    { label: "Address", value: student.address },
+    { label: "Department", value: student.department },
+    { label: "Current Year", value: student.year },
+    { label: "Mentor", value: student.mentor },
+    { label: "Attendance", value: student.attendance, low: student.attendance < 75 },
+    { label: "Semester-wise CGPA", value: student.cgpa }
+  ];
+
+  fields.forEach(f => {
+    const tr = document.createElement("tr");
+    const th = document.createElement("th");
+    th.textContent = f.label;
+    const td = document.createElement("td");
+    td.textContent = f.value;
+    if(f.low) td.classList.add("low-attendance");
+    tr.appendChild(th);
+    tr.appendChild(td);
+    tbody.appendChild(tr);
+  });
+}
+
+// Logout function
+function logout(){
+  window.location.href = "index.html";
 }
 </script>
 

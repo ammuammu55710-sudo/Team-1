@@ -3,180 +3,116 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Faculty Portal - Student Management System</title>
+<title>Faculty - Student Management System</title>
 <style>
-  body {
-    font-family: Arial, sans-serif;
-    background: #fff3e0;
-    padding: 30px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  h1 {
-    color: #ff6600;
-    text-shadow: 1px 1px 2px #ffcc80;
-    margin-bottom: 20px;
-  }
-
-  input, button {
-    padding: 10px;
-    margin: 5px;
-    border-radius: 8px;
-    border: none;
-    font-size: 16px;
-  }
-
-  input {
-    width: 200px;
-    text-align: center;
-  }
-
-  button {
-    background: #ff9933;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.3s;
-  }
-
-  button:hover {
-    background: #ffcc80;
-  }
-
-  table {
-    margin-top: 20px;
-    border-collapse: collapse;
-    width: 80%;
-  }
-
-  table, th, td {
-    border: 1px solid #ff9933;
-  }
-
-  th, td {
-    padding: 10px;
-    text-align: center;
-  }
-
-  th {
-    background-color: #ff6600;
-    color: white;
-  }
-
-  .edit-input {
-    width: 80px;
-    padding: 5px;
-  }
-
-  .fade {
-    animation: fadeIn 0.5s ease;
-  }
-
-  @keyframes fadeIn {
-    from {opacity: 0;}
-    to {opacity: 1;}
-  }
-
-  .form-container {
-    margin-top: 20px;
-    background: #ffd699;
-    padding: 20px;
-    border-radius: 15px;
-    width: 350px;
-    text-align: center;
-    animation: fadeIn 0.5s ease;
-  }
-
+  body { font-family: Arial; background: #fff3e0; margin: 0; padding: 0; }
+  header { background: #ff9933; color: white; text-align: center; padding: 20px; font-size: 24px; }
+  .container { padding: 20px; max-width: 1200px; margin: auto; }
+  .form-container, .table-container { background: #ffb84d; border-radius: 10px; padding: 20px; margin-bottom: 20px; }
+  input, select { width: calc(50% - 20px); margin: 10px; padding: 10px; border-radius: 5px; border: none; }
+  button { padding: 10px 20px; border: none; border-radius: 5px; background: #ff9933; color: white; font-weight: bold; cursor: pointer; margin: 10px 5px; transition: 0.3s; }
+  button:hover { background: #ffcc80; }
+  table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+  th, td { border: 1px solid #fff; padding: 10px; text-align: center; color: white; }
+  th { background: #ff9933; }
+  tr:nth-child(even) { background: #ffb84d50; }
 </style>
 </head>
 <body>
 
-<h1>Student Management System - Faculty Portal</h1>
+<header>Faculty - Student Management System</header>
+<div class="container">
 
-<div class="form-container">
-  <h3>Add New Student</h3>
-  <input type="text" id="newName" placeholder="Name">
-  <input type="text" id="newRoll" placeholder="Roll No">
-  <input type="text" id="newAttendance" placeholder="Attendance">
-  <input type="text" id="newGrade" placeholder="Grade">
-  <br>
-  <button onclick="addStudent()">Add Student</button>
+  <div class="form-container">
+    <h2>Add / Edit Student</h2>
+    <input type="text" id="f_name" placeholder="Student Name">
+    <input type="text" id="f_rollno" placeholder="Roll No">
+    <input type="text" id="f_father" placeholder="Father Name">
+    <input type="text" id="f_mother" placeholder="Mother Name">
+    <input type="date" id="f_dob" placeholder="Date of Birth">
+    <select id="f_gender">
+      <option value="">Select Gender</option>
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+      <option value="Other">Other</option>
+    </select>
+    <input type="text" id="f_contact" placeholder="Contact">
+    <input type="text" id="f_address" placeholder="Address">
+    <input type="text" id="f_department" placeholder="Department">
+    <input type="text" id="f_year" placeholder="Current Year">
+    <input type="text" id="f_mentor" placeholder="Mentor">
+    <input type="number" id="f_attendance" placeholder="Attendance (%)">
+    <input type="text" id="f_cgpa" placeholder="Semester-wise CGPA">
+    <br>
+    <button onclick="addStudent()">Add / Update Student</button>
+    <button onclick="logout()">Logout</button>
+  </div>
+
+  <div class="table-container">
+    <h2>All Students</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th><th>Roll No</th><th>Father</th><th>Mother</th><th>DOB</th><th>Gender</th>
+          <th>Contact</th><th>Address</th><th>Department</th><th>Year</th><th>Mentor</th><th>Attendance</th><th>CGPA</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+  </div>
+
 </div>
 
-<table id="studentTable" class="fade">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Roll No</th>
-      <th>Attendance</th>
-      <th>Grade</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <!-- Student rows will be here -->
-  </tbody>
-</table>
-
 <script>
-let students = [
-  { name: "Abhinaya", attendance: "90%", rollNo: "23R91A04K1", grade: "A" },
-  { name: "Prasanna", attendance: "85%", rollNo: "23R91A04D6", grade: "B" },
-  { name: "Prudhvi", attendance: "95%", rollNo: "23R91A04J7", grade: "A+" },
-  { name: "Sandeep kumar", attendance: "80%", rollNo: "24R95A0415", grade: "B+" },
-  { name: "Swetha", attendance: "90%", rollNo: "23R91A04E6", grade: "A" },
-  { name: "Pavan", attendance: "85%", rollNo: "23R91A04J0", grade: "B" },
-  { name: "Varun", attendance: "95%", rollNo: "23R91A04E5", grade: "A+" },
-  { name: "sushanth", attendance: "80%", rollNo: "23R91A04F4", grade: "B+" },
-  { name: "Vamshi", attendance: "90%", rollNo: "23R91A04H7", grade: "A" },
-  { name: "Nagaraju", attendance: "85%", rollNo: "23R91A04J8", grade: "B" },
-  { name: "Charan", attendance: "95%", rollNo: "23R91A04J9", grade: "A+" },
-  { name: "Vyshnavi", attendance: "80%", rollNo: "24R95A0410", grade: "B+" }
-];
+function addStudent() {
+  const student = {
+    name: document.getElementById("f_name").value.trim(),
+    rollno: document.getElementById("f_rollno").value.trim(),
+    father: document.getElementById("f_father").value.trim(),
+    mother: document.getElementById("f_mother").value.trim(),
+    dob: document.getElementById("f_dob").value,
+    gender: document.getElementById("f_gender").value,
+    contact: document.getElementById("f_contact").value.trim(),
+    address: document.getElementById("f_address").value.trim(),
+    department: document.getElementById("f_department").value.trim(),
+    year: document.getElementById("f_year").value.trim(),
+    mentor: document.getElementById("f_mentor").value.trim(),
+    attendance: document.getElementById("f_attendance").value,
+    cgpa: document.getElementById("f_cgpa").value.trim()
+  };
+
+  let students = JSON.parse(localStorage.getItem("students")) || [];
+
+  // Check if student exists (update)
+  const index = students.findIndex(s => s.rollno === student.rollno);
+  if(index >= 0){
+    students[index] = student;
+  } else {
+    students.push(student);
+  }
+
+  localStorage.setItem("students", JSON.stringify(students));
+  renderTable();
+  alert("Student added/updated!");
+}
 
 function renderTable() {
-  const tbody = document.querySelector("#studentTable tbody");
+  const students = JSON.parse(localStorage.getItem("students")) || [];
+  const tbody = document.getElementById("tableBody");
   tbody.innerHTML = "";
-  students.forEach((student, index) => {
-    const row = document.createElement("tr");
-    row.innerHTML = `
-      <td><input class="edit-input" value="${student.name}" onchange="editStudent(${index}, 'name', this.value)"></td>
-      <td><input class="edit-input" value="${student.rollNo}" onchange="editStudent(${index}, 'rollNo', this.value)"></td>
-      <td><input class="edit-input" value="${student.attendance}" onchange="editStudent(${index}, 'attendance', this.value)"></td>
-      <td><input class="edit-input" value="${student.grade}" onchange="editStudent(${index}, 'grade', this.value)"></td>
-      <td><button onclick="deleteStudent(${index})">Delete</button></td>
-    `;
-    tbody.appendChild(row);
+
+  students.forEach(s => {
+    let row = `<tr>
+      <td>${s.name}</td><td>${s.rollno}</td><td>${s.father}</td><td>${s.mother}</td><td>${s.dob}</td>
+      <td>${s.gender}</td><td>${s.contact}</td><td>${s.address}</td><td>${s.department}</td><td>${s.year}</td>
+      <td>${s.mentor}</td><td class="${s.attendance<75?'low-attendance':''}">${s.attendance}</td><td>${s.cgpa}</td>
+    </tr>`;
+    tbody.innerHTML += row;
   });
 }
 
-function editStudent(index, field, value) {
-  students[index][field] = value;
-}
-
-function deleteStudent(index) {
-  students.splice(index, 1);
-  renderTable();
-}
-
-function addStudent() {
-  const name = document.getElementById('newName').value.trim();
-  const rollNo = document.getElementById('newRoll').value.trim();
-  const attendance = document.getElementById('newAttendance').value.trim();
-  const grade = document.getElementById('newGrade').value.trim();
-
-  if(name && rollNo && attendance && grade) {
-    students.push({ name, rollNo, attendance, grade });
-    renderTable();
-    document.getElementById('newName').value = '';
-    document.getElementById('newRoll').value = '';
-    document.getElementById('newAttendance').value = '';
-    document.getElementById('newGrade').value = '';
-  } else {
-    alert("Please fill all fields!");
-  }
+function logout() {
+  window.location.href = "index.html";
 }
 
 // Initial render
